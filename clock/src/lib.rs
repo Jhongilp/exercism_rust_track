@@ -36,11 +36,40 @@ pub struct Clock {
 //     }
 // }
 
+// impl Clock {
+//     pub fn new(hours: i32, minutes: i32) -> Self {
+//         let minutes_left = (((minutes + 60) % 60) + 60) % 60;
+
+//         let hours_from_minutes = if minutes as f32 / 60 as f32 >= 0.0 || minutes % 60 == 0{
+//             println!("bigger than zero: {}", minutes as f32 / 60 as f32);
+//             minutes / 60
+//         } else {
+//             println!("less than zero: {}", minutes as f32 / 60 as f32);
+//             (minutes / 60) - 1
+//         };
+//         println!("hours_from_minutes: {}", hours_from_minutes);
+
+//         let total_hours = ((((hours + hours_from_minutes) + 24) % 24) + 24) % 24;
+//         // Clock {hours: total_h, minutes: total_m}
+//         Clock {hours: total_hours, minutes: minutes_left}
+//     }
+
+//     pub fn add_minutes(&self, minutes: i32) -> Self {
+//         let Clock { hours: h, minutes: m} = self;
+//         let total_hours = (h + ((m + minutes) / 60)) % 24;
+//         println!("total_hours: {}", total_hours);
+
+//         let minutes_left = (((minutes + m + 60) % 60) + 60) % 60;
+
+//         Clock {hours: total_hours, minutes: minutes_left}
+//     }
+// }
+
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
         let minutes_left = (((minutes + 60) % 60) + 60) % 60;
 
-        let hours_from_minutes = if minutes as f32 / 60 as f32 >= 0.0 || minutes % 60 == 0{
+        let hours_from_minutes = if minutes as f32 / 60 as f32 >= 0.0 || minutes % 60 == 0 {
             println!("bigger than zero: {}", minutes as f32 / 60 as f32);
             minutes / 60
         } else {
@@ -50,18 +79,33 @@ impl Clock {
         println!("hours_from_minutes: {}", hours_from_minutes);
 
         let total_hours = ((((hours + hours_from_minutes) + 24) % 24) + 24) % 24;
-        // Clock {hours: total_h, minutes: total_m}
-        Clock {hours: total_hours, minutes: minutes_left}
+        Clock {
+            hours: total_hours,
+            minutes: minutes_left,
+        }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        let Clock { hours: h, minutes: m} = self;
-        let total_hours = (h + ((m + minutes) / 60)) % 24;
-        println!("total_hours: {}", total_hours);
-
+        let Clock {
+            hours: h,
+            minutes: m,
+        } = self;
         let minutes_left = (((minutes + m + 60) % 60) + 60) % 60;
 
-        Clock {hours: total_hours, minutes: minutes_left}
+        let total_hours = (h + ((m + minutes) / 60)) % 24;
+        // let total_hours = if m - minutes >= 0 {
+        //     println!("same hour");
+        //     (h + ((m + minutes) / 60)) % 24
+        // } else {
+        //     println!("rest an hour");
+        //     ((h - 1 + ((m + minutes) / 60)) + 24) % 24
+        // };
+        println!("total_hours: {}", total_hours);
+
+        Clock {
+            hours: total_hours,
+            minutes: minutes_left,
+        }
     }
 }
 
